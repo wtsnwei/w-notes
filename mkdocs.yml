@@ -3,33 +3,37 @@ site_name: Ava's notes
 nav:
   - Home: index.md
   - About: about.md
-  - kubernetes:
-    - '设置免密登录': 'kubernetes/1.免密登录.md'
-    - '时间同步': 'kubernetes/2.时间同步.md'
-    - '内核参数优化': 'kubernetes/3.内核参数优化.md'
-    - '修改sysctl配置': 'kubernetes/3.修改sysctl配置.md'
-    - '关闭相关服务': 'kubernetes/4.关闭相关服务.md'
-    - '提供底层存储': 'kubernetes/5.提供底层存储.md'
-    - '为ceph提供provisioner': 'kubernetes/6.为ceph提供provisioner.md'
-    - '安装helm': 'kubernetes/7.安装helm.md'
-    - '部署ingress-controller': 'kubernetes/8.部署ingress-controller.md'
-    - '部署kubernetes-dashboard': 'kubernetes/9.部署kubernetes-dashboard.md'
-    - '部署harbor': 'kubernetes/10.部署harbor.md'
-    - '使用证书': 'kubernetes/11.使用证书.md'
-    - '自动扩容': 'kubernetes/12.自动扩容.md'
-    - '部署mysql': 'kubernetes/13.部署mysql.md'
-    - '部署jenkins': 'kubernetes/14.部署jenkins.md'
-    - '为jenkins添加静态agent节点': 'kubernetes/14-1.为jenkins添加静态agent节点.md'
-    - 'jenkinsfile模板': 'kubernetes/14-2.jenkinsfile模板.md'
-    - '部署redis': 'kubernetes/15.部署redis.md'
-    - '部署kafka': 'kubernetes/16.部署kafka.md'
-    - '部署rabbitmq': 'kubernetes/17.部署rabbitmq.md'
-    - '部署consul': 'kubernetes/18.部署consul.md'
-    - '部署kube-prometheus-stack': 'kubernetes/19.部署kube-prometheus-stack.md'
-    - 'EFK收集日志': 'kubernetes/20.EFK收集日志.md'
-    - '部署gitlab': 'kubernetes/21.部署gitlab.md'
-    - 'ingress的作用及部署': 'kubernetes/ingress.md'
-    - 'nginx-ingress补充': 'kubernetes/nginx-ingress补充.md'
+  - 'kubernetes':
+    - '准备工作':
+      - '设置免密登录': 'kubernetes/1.免密登录.md'
+      - '时间同步': 'kubernetes/2.时间同步.md'
+      - '内核参数优化': 'kubernetes/3.内核参数优化.md'
+      - '修改sysctl配置': 'kubernetes/3.修改sysctl配置.md'
+      - '关闭相关服务': 'kubernetes/4.关闭相关服务.md'
+      - '提供底层存储': 'kubernetes/5.提供底层存储.md'
+      - '为ceph提供provisioner': 'kubernetes/6.为ceph提供provisioner.md'
+      - '安装helm': 'kubernetes/7.安装helm.md'
+      - 'ingress':
+        - 'ingress的作用及部署': 'kubernetes/ingress.md'
+        - 'nginx-ingress补充': 'kubernetes/nginx-ingress补充.md'
+        - '部署ingress-controller': 'kubernetes/8.部署ingress-controller.md'
+      - '部署kubernetes-dashboard': 'kubernetes/9.部署kubernetes-dashboard.md'
+      - '部署harbor': 'kubernetes/10.部署harbor.md'
+      - '使用证书': 'kubernetes/11.使用证书.md'
+    - '部署应用':
+      - '自动扩容': 'kubernetes/12.自动扩容.md'
+      - '部署mysql': 'kubernetes/13.部署mysql.md'
+      - '部署jenkins': 
+        - 'helm安装jenkins': 'kubernetes/14.部署jenkins.md'
+        - '为jenkins添加静态agent节点': 'kubernetes/14-1.为jenkins添加静态agent节点.md'
+        - 'jenkinsfile模板': 'kubernetes/14-2.jenkinsfile模板.md'
+      - '部署redis': 'kubernetes/15.部署redis.md'
+      - '部署kafka': 'kubernetes/16.部署kafka.md'
+      - '部署rabbitmq': 'kubernetes/17.部署rabbitmq.md'
+      - '部署consul': 'kubernetes/18.部署consul.md'
+      - '部署kube-prometheus-stack': 'kubernetes/19.部署kube-prometheus-stack.md'
+      - 'EFK收集日志': 'kubernetes/20.EFK收集日志.md'
+      - '部署gitlab': 'kubernetes/21.部署gitlab.md'
     - 'helm卸载时不删除pvc': 'kubernetes/helm卸载时不删除pvc.md'
     - '自动补全': 'kubernetes/自动补全.md'
     - '以root权限启动容器': 'kubernetes/以root权限启动容器.md'
@@ -41,6 +45,13 @@ nav:
     - 'nfs提供storageclass':
       - 'docker部署nfs': 'kubernetes/nfs提供storageclass/01.docker部署nfs.md'
       - 'helm部署nfs作为storageclass': 'kubernetes/nfs提供storageclass/02.使用nfs作为storageclass.md'
+    - 'k8s最佳实践':
+      - '如何构建尽可能小的容器镜像': 'kubernetes/k8s最佳实践/01.如何构建尽可能小的容器镜像.md'
+      - '如何使用命名空间管理kubernetes资源': 'kubernetes/k8s最佳实践/02.如何使用命名空间管理kubernetes资源.md'
+      - '健康检查': 'kubernetes/k8s最佳实践/03.健康检查.md'
+      - '资源请求和限制': '04.资源请求和限制.md'
+      - 'Kubernetes的内置服务发现机制运行集群外部服务': 'kubernetes/k8s最佳实践/06.Kubernetes的内置服务发现机制运行集群外部服务.md'
+      - '零停机更新kubernetes集群': 'kubernetes/k8s最佳实践/07.零停机更新kubernetes集群.md'
 
 
 theme:
