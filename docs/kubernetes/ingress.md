@@ -12,7 +12,7 @@
 
 这就是 NodePort  模式：即在每个节点上开起一个端口，然后转发到内部 Pod IP 上，如下图所示：
 
-![](img/1.png)
+![](/img/1.png)
 
 
 
@@ -28,7 +28,7 @@ Pod与Pod之间是可以互相通信的，而Pod可以共享宿主机的网络�
 
 简单的实现就是使用 DaemonSet 在每个 Node 上监听 80，然后写好规则，因为 Nginx 外面绑定了宿主机 80 端口（就像  NodePort），本身又在集群内，那么向后直接转发到相应 Service IP 就行了，如下图所示：
 
-![](img/2.png)
+![](/img/2.png)
 
 ## 3、域名分配及动态更新问题
 
@@ -40,7 +40,7 @@ Pod与Pod之间是可以互相通信的，而Pod可以共享宿主机的网络�
 
 此时 Ingress 出现了，除了上面的Nginx，Ingress 还包含两大组件：Ingress Controller 和 Ingress。
 
-![](img/3.png)
+![](/img/3.png)
 
 Ingress 简单的理解就是你原来需要改 Nginx 配置，然后配置各种域名对应哪个 Service。
 
@@ -52,7 +52,7 @@ Ingress 简单的理解就是你原来需要改 Nginx 配置，然后配置各�
 
 Ingress Controler 通过与  Kubernetes API 交互，动态的去感知集群中 Ingress 规则变化，然后读取它，按照它自己的模板生成一段 Nginx 配置，再写到  Nginx Pod 里，最后 reload 一下，工作流程如下图：
 
-![](img/4.png)
+![](/img/4.png)
 
 实际上Ingress也是Kubernetes API的标准资源类型之一，它其实就是一组基于DNS名称（host）或URL路径把请求转发到指定的Service资源的规则。简而言之，**ingress 就是转发规则**。
 

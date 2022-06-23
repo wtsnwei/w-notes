@@ -1,0 +1,458 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+  name: promethues
+  namespace: monitor
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+  name: promethues
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - nodes/metrics
+      - services
+      - endpoints
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+  - nonResourceURLs:
+      - /metrics
+    verbs:
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+  name: promethues
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: promethues
+subjects:
+  - kind: ServiceAccount
+    name: promethues
+    namespace: monitor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+  name: promethues
+  namespace: monitor
+spec:
+  ports:
+    - name: promethues
+      port: 9090
+      targetPort: 9090
+  selector:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+  clusterIP: None
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+  name: promethues
+  namespace: monitor
+data:
+  alertmanager_rules.yaml: |
+    groups:
+    - name: example
+      rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minutes."
+      - alert: NodeMemoryUsage
+        expr: (node_memory_MemTotal_bytes -(node_memory_MemFree_bytes+node_memory_Buffers_bytes+node_memory_Cached_bytes )) / node_memory_MemTotal_bytes * 100 < 80
+        for: 1m
+        labels:
+          team: ops
+        annotations:
+          summary: "cluster:{{ $labels.cluster }} {{ $labels.instance }}: High Memory usage detected"
+          description: "{{ $labels.instance }}: Memory usage is above 55% (current value is: {{ $value }}"
+  prometheus.yml: |
+    global:
+      scrape_interval:     30s
+      evaluation_interval: 30s
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+            - promethues-alertmanager:9093
+    rule_files:
+      - "/etc/prometheus/alertmanager_rules.yaml"
+    scrape_configs:
+      - job_name: 'exporter'
+        kubernetes_sd_configs:
+          - role: endpoints  # 从Service列表中的Endpoint发现Pod为目标
+        relabel_configs:
+          # Service没配置注解prometheus.io/scrape的不采集
+          - action: keep
+            regex: true
+            source_labels:
+              - __meta_kubernetes_service_annotation_prometheus_io_scrape
+          # 重命名采集目标协议
+          - action: replace
+            regex: (https?)
+            source_labels:
+              - __meta_kubernetes_service_annotation_prometheus_io_scheme
+            target_label: __scheme__
+          # 重命名采集目标指标URL路径
+          - action: replace
+            regex: (.+)
+            source_labels:
+              - __meta_kubernetes_service_annotation_prometheus_io_path
+            target_label: __metrics_path__
+          # 重命名采集目标地址
+          - action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            source_labels:
+              - __address__
+              - __meta_kubernetes_service_annotation_prometheus_io_port
+            target_label: __address__
+          # 将K8s标签(.*)作为新标签名，原有值不变
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          # 生成命名空间标签
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_namespace
+            target_label: kubernetes_namespace
+          # 生成Service名称标签
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_service_name
+            target_label: kubernetes_name
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "5"
+  labels:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+  name: promethues
+  namespace: monitor
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 7
+  selector:
+    matchLabels:
+      cluster-agent-app/name: promethues
+
+      cluster-agent-unit/version: v2.2.8
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cluster-agent-app/name: promethues
+  
+        cluster-agent-unit/version: v2.2.8
+    spec:
+      containers:
+        - name: prometheus
+          image: docker.io/prom/prometheus:v2.28.1
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/prometheus
+          args:
+            - "--web.listen-address=0.0.0.0:9090"
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+            - "--storage.tsdb.retention=24h"
+            - "--web.console.libraries=/etc/prometheus/console_libraries"
+            - "--web.console.templates=/etc/prometheus/consoles"
+            - "--web.enable-lifecycle"
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+          volumeMounts:
+            - mountPath: "/etc/prometheus"
+              name: config-volume
+          resources:
+            requests:
+              cpu: "2000m"
+              memory: "4G"
+            limits:
+              cpu: "2000m"
+              memory: "4G"
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 9090
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9090
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+      securityContext:
+        runAsUser: 0
+      serviceAccountName: promethues
+      volumes:
+        - name: config-volume
+          configMap:
+            name: promethues
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  labels:
+    cluster-agent-app/name: promethues-node-exporter
+    cluster-agent-unit/version: v2.2.8
+  name: promethues-node-exporter
+  namespace: monitor
+spec:
+  selector:
+    matchLabels:
+      cluster-agent-app/name: promethues-node-exporter
+
+      cluster-agent-unit/version: v2.2.8
+  template:
+    metadata:
+      name: promethues-node-exporter
+      labels:
+        cluster-agent-app/name: promethues-node-exporter
+  
+        cluster-agent-unit/version: v2.2.8
+    spec:
+      volumes:
+        - name: dev
+          hostPath:
+            path: /dev
+            type: ""
+        - name: proc
+          hostPath:
+            path: /proc
+            type: ""
+        - name: sys
+          hostPath:
+            path: /sys
+            type: ""
+      containers:
+        - name: promethues-node-exporter
+          image: docker.io/bitnami/node-exporter:1.1.2
+          imagePullPolicy: IfNotPresent
+          args:
+            - --path.procfs=/host/proc
+            - --path.sysfs=/host/sys
+          ports:
+            - name: http
+              hostPort: 9100
+              containerPort: 9100
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: 9100
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 9100
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: dev
+              mountPath: /host/dev
+            - name: proc
+              mountPath: /host/proc
+            - name: sys
+              mountPath: /host/sys
+      securityContext:
+        runAsUser: 0
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/storage
+          effect: NoSchedule
+      hostPID: true
+      hostIPC: true
+      hostNetwork: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: true
+  labels:
+    cluster-agent-app/name: promethues-node-exporter
+    cluster-agent-unit/version: v2.2.8
+  name: promethues-node-exporter
+  namespace: monitor
+spec:
+  ports:
+    - name: http
+      port: 9100
+      targetPort: 9100
+  selector:
+    cluster-agent-app/name: promethues-node-exporter
+    cluster-agent-unit/version: v2.2.8
+  clusterIP: None
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: promethues
+  namespace: monitor
+  labels:
+    cluster-agent-app/name: promethues
+    cluster-agent-unit/version: v2.2.8
+spec:
+  rules:
+    - host: prom.markettest.gree.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: promethues
+                port:
+                  number: 9090
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: promethues-alertmanager
+  namespace: monitor
+  labels:
+    cluster-agent-app/name: promethues-alertmanager
+    cluster-agent-unit/version: v2.2.8
+data:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 5m
+# 告警自定义邮件
+#      smtp_smarthost: 'smtp.163.com:25'
+#      smtp_from: 'baojingtongzhi@163.com'
+#      smtp_auth_username: 'baojingtongzhi@163.com'
+#      smtp_auth_password: 'liang123'
+    receivers:
+    - name: webhook
+      webhook_configs:
+      - url: 'http://alertmanager-webhook:8080/alerts'
+    # - name: default-receiver
+    #   email_configs:
+    #   - to: "zhenliang369@163.com"
+    route:
+      group_interval: 1m
+      group_wait: 10s
+      receiver: webhook
+      repeat_interval: 1m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promethues-alertmanager
+  namespace: monitor
+  labels:
+    cluster-agent-app/name: promethues-alertmanager
+    cluster-agent-unit/version: v2.2.8
+spec:
+  selector:
+    matchLabels:
+      cluster-agent-app/name: promethues-alertmanager
+      cluster-agent-unit/version: v2.2.8
+  template:
+    metadata:
+      labels:
+        cluster-agent-app/name: promethues-alertmanager
+  
+        cluster-agent-unit/version: v2.2.8
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      priorityClassName: system-cluster-critical
+      containers:
+        - name: prometheus-alertmanager
+          image: prom/alertmanager:v0.22.2
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - --config.file=/etc/config/alertmanager.yml
+          ports:
+            - containerPort: 9093
+          readinessProbe:
+            httpGet:
+              path: /#/status
+              port: 9093
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+          resources:
+            limits:
+              cpu: 10m
+              memory: 50Mi
+            requests:
+              cpu: 10m
+              memory: 50Mi
+      securityContext:
+        runAsUser: 0
+      volumes:
+        - name: config-volume
+          configMap:
+            name: promethues-alertmanager
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: promethues-alertmanager
+  namespace: monitor
+  labels:
+    cluster-agent-app/name: promethues-alertmanager
+    cluster-agent-unit/version: v2.2.8
+spec:
+  ports:
+    - name: http
+      port: 9093
+      protocol: TCP
+      targetPort: 9093
+  selector:
+    cluster-agent-app/name: promethues-alertmanager
+    cluster-agent-unit/version: v2.2.8

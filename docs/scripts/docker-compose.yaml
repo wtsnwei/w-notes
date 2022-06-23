@@ -1,0 +1,74 @@
+version: '3.1'
+services:
+  mon:
+    image:  harbor.huaweiyun.com/library/ceph:pacific
+    container_name: mon
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: mon
+      MON_IP: "10.7.66.234"
+      CEPH_PUBLIC_NETWORK: "10.7.66.0/24"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  osd:
+    image:  harbor.huaweiyun.com/library/ceph:pacific
+    container_name: osd
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: osd
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime 
+      - /data/ceph/etc/ceph:/etc/ceph 
+      - /data/ceph/var/lib/ceph:/var/lib/ceph 
+      - /data/ceph/osd_data:/var/lib/ceph/osd 
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  mgr:
+    image:  harbor.huaweiyun.com/library/ceph:pacific
+    container_name: mgr
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: mgr
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime 
+      - /data/ceph/etc/ceph:/etc/ceph 
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  rgw:
+    image:  harbor.huaweiyun.com/library/ceph:pacific
+    container_name: rgw
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: rgw
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime 
+      - /data/ceph/etc/ceph:/etc/ceph 
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  mds:
+    image:  harbor.huaweiyun.com/library/ceph:pacific
+    container_name: mds
+    network_mode: host
+    restart: always
+    depends_on:
+      - mon
+    environment:
+      CEPH_DAEMON: mds
+      CEPHFS_CREATE: 1
+    volumes:
+      - /etc/localtime:/etc/localtime 
+      - /data/ceph/etc/ceph:/etc/ceph 
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph

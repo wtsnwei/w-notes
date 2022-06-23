@@ -1,0 +1,119 @@
+version: '3.1'
+services:
+  mon:
+    image: ceph:mimic
+    container_name: mon
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: mon
+      MON_IP: "192.168.33.10"
+      CEPH_PUBLIC_NETWORK: "192.168.33.1/16"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  osd:
+    image: ceph:mimic
+    container_name: osd
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: osd
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/osd_data:/var/lib/ceph/osd
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  osd-extend-01:
+    image: ceph:mimic
+    container_name: osd-extend-01
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: osd
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/osd_data_01:/var/lib/ceph/osd
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  osd-extend-02:
+    image: ceph:mimic
+    container_name: osd-extend-02
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: osd
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /xfs-extend02/ceph/osd_data_01:/var/lib/ceph/osd
+      - /xfs-extend02/ceph/var/log/ceph:/var/log/ceph
+  osd-extend-03:
+    image: ceph:mimic
+    container_name: osd-extend-03
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: osd
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /xfs-extend02/ceph/osd_data_01:/var/lib/ceph/osd
+      - /xfs-extend02/ceph/var/log/ceph:/var/log/ceph
+  mgr:
+    image: ceph:mimic
+    container_name: mgr
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: mgr
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  rgw:
+    image: ceph:mimic
+    container_name: rgw
+    network_mode: host
+    restart: always
+    environment:
+      CEPH_DAEMON: rgw
+    depends_on:
+      - mon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph
+  mds:
+    image: ceph:mimic
+    container_name: mds
+    network_mode: host
+    restart: always
+    depends_on:
+      - mon
+    environment:
+      CEPH_DAEMON: mds
+      CEPHFS_CREATE: 1
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/ceph/etc/ceph:/etc/ceph
+      - /data/ceph/var/lib/ceph:/var/lib/ceph
+      - /data/ceph/var/log/ceph:/var/log/ceph

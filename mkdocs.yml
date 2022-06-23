@@ -3,6 +3,16 @@ site_name: Ava's notes
 nav:
   - Home: index.md
   - About: about.md
+  - 'docker': 
+    - '安装docker': 'docker/安装docker.md'
+    - 'docker常用指令': 'docker/docker常用指令.md'
+    - '导入导出镜像': 'docker/导入导出镜像.md'
+    - 'debian容器中运行本地仓库': 'docker/debian容器中运行本地仓库.md'
+    - 'Containerd常见操作': 'docker/Containerd常见操作.md'
+    - '启动各种容器':
+      - '启动redis': 'docker/启动各种容器/启动redis.md'
+      - '启动mysql': 'docker/启动各种容器/启动mysql.md'
+      - '启动sonarqube': 'docker/启动各种容器/启动sonarqube.md'
   - 'kubernetes':
     - '准备工作':
       - '设置免密登录': 'kubernetes/1.免密登录.md'
@@ -45,19 +55,40 @@ nav:
     - 'nfs提供storageclass':
       - 'docker部署nfs': 'kubernetes/nfs提供storageclass/01.docker部署nfs.md'
       - 'helm部署nfs作为storageclass': 'kubernetes/nfs提供storageclass/02.使用nfs作为storageclass.md'
+    - 'kube-prometheus-stack':
+      - 'alermanager配置email': 'kubernetes/kube-prometheus-stack/alermanager-email.md'
+      - 'alermanager路由配置详解': 'kubernetes/kube-prometheus-stack/alertmanager路由配置详解.md' 
     - 'k8s最佳实践':
       - '如何构建尽可能小的容器镜像': 'kubernetes/k8s最佳实践/01.如何构建尽可能小的容器镜像.md'
       - '如何使用命名空间管理kubernetes资源': 'kubernetes/k8s最佳实践/02.如何使用命名空间管理kubernetes资源.md'
       - '健康检查': 'kubernetes/k8s最佳实践/03.健康检查.md'
-      - '资源请求和限制': '04.资源请求和限制.md'
+      - '资源请求和限制': 'kubernetes/k8s最佳实践/04.资源请求和限制.md'
+      - '如何优雅地终止': 'kubernetes/k8s最佳实践/05.如何优雅地终止.md'
       - 'Kubernetes的内置服务发现机制运行集群外部服务': 'kubernetes/k8s最佳实践/06.Kubernetes的内置服务发现机制运行集群外部服务.md'
       - '零停机更新kubernetes集群': 'kubernetes/k8s最佳实践/07.零停机更新kubernetes集群.md'
+  - 'ceph': 
+    - '生成本地仓库安装ceph': 'ceph/0.生成本地仓库安装ceph.md'
+    - '配置客户端': 'ceph/1.配置客户端.md'
+    - '创建ceph块设备': 'ceph/2.创建ceph块设备.md'
+    - '映射ceph块设备': 'ceph/3.映射ceph块设备.md'
+    - '调整ceph RBD大小': 'ceph/4.调整ceph RBD大小.md'
+    - '使用快照': 'ceph/5.使用快照.md'
+    - 'docker-compose部署ceph': 
+      - '部署ceph': 'ceph/docker-compose部署ceph/1-1.部署文档.md'
+      - '为k8s提供storageClass':
+        - 'kube-controller-manager镜像中添加rbd': 'ceph/docker-compose部署ceph/2.0.构建带rbd的controller-manager.md'
+        - '使用provisioner提供rbd': 'ceph/docker-compose部署ceph/2.1.k8s使用provisioner提供rbd.md'
+        - 'k8s使用storageClass': 'ceph/docker-compose部署ceph/2.2.ceph-rbd-sc.md'
 
 
 theme:
   # name: 'material'
   name: 'mkdocs'
   locale: zh_CN
+
+plugins:
+  - search:
+      lang: en
 
 # 代码块语法高亮
 markdown_extensions:
