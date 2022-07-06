@@ -2,10 +2,12 @@ site_name: Ava's notes
 
 nav:
   - Home: index.md
-  - About: about.md
-  - 'idea使用技巧':
+  - 'idea':
     - '快捷键': 'idea/快捷键.md'
     - '跳转切换': 'idea/跳转切换.md'
+  - 'git':
+    - '常用命令': 'git/git常用命令.md'
+    - 'github超时': 'git/github超时.md'
   - 'docker': 
     - '安装docker': 'docker/安装docker.md'
     - 'docker常用指令': 'docker/docker常用指令.md'
@@ -16,6 +18,21 @@ nav:
       - '启动redis': 'docker/启动各种容器/启动redis.md'
       - '启动mysql': 'docker/启动各种容器/启动mysql.md'
       - '启动sonarqube': 'docker/启动各种容器/启动sonarqube.md'
+  - 'springboot':
+    - 'mybatis-plus自动生成代码': 'springboot/mybatis-plus自动生成代码.md'
+    - 'json序列化':
+      - 'dto序列化': 'springboot/json序列化/前端序列化.md'
+    - 'Long转String': 'springboot/Long转String.md'
+    - '复制bean': 'springboot/复制bean.md'
+    - '多数据源配置': 'springboot/多数据源配置.md'
+    - '入参校验': 'springboot/入参有效性校验.md'
+    - '枚举类': 'springboot/枚举类.md'
+    - 'aop':
+      - '现在访问频率': 'springboot/springboot使用AOP限制访问频率.md'
+    - '使用jms发送邮件': 'springboot/springboot使用jms发送邮件.md'
+    - '使用redis': 'springboot/springboot使用redis.md'
+    - '函数式编程':
+      - '分组求最值': 'springboot/stream求组内最大值.md'
   - 'kubernetes':
     - '准备工作':
       - '设置免密登录': 'kubernetes/1.免密登录.md'
@@ -82,8 +99,11 @@ nav:
         - 'kube-controller-manager镜像中添加rbd': 'ceph/docker-compose部署ceph/2.0.构建带rbd的controller-manager.md'
         - '使用provisioner提供rbd': 'ceph/docker-compose部署ceph/2.1.k8s使用provisioner提供rbd.md'
         - 'k8s使用storageClass': 'ceph/docker-compose部署ceph/2.2.ceph-rbd-sc.md'
-
-
+  - 'latex':
+    - '配置sublime+latex': 'latex/sublime+latex.md'
+    - 'TeX小结': 'latex/TeX小结.md'
+    - '代码环境': 'latex/代码环境.md'
+    - '定理环境': 'latex/定理环境.md'
 theme:
   # name: 'material'
   name: 'mkdocs'
@@ -95,13 +115,15 @@ plugins:
 
 # 代码块语法高亮
 markdown_extensions:
-  - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
   - pymdownx.snippets
+  - pymdownx.superfences
 
 # 代码块语法高亮
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
-  - javascripts/config.js
 extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
+  - quote_block.css
