@@ -155,11 +155,11 @@ class SpringbootApplicationTests {
       mail:
         mail-0:
           # 邮件服务器的SMTP地址，可选，默认为smtp.<发件人邮箱后缀>
-          host: 10.2.4.66
+          host: 10.22.34.66
           # 邮件服务器的SMTP端口，可选，默认25
           #      port: 25
           # 发件人（必须正确，否则发送失败）
-          from: g_planning@leayun.cn
+          from: test@qq.com
           # 密码（注意，某些邮箱需要为SMTP服务单独设置授权码）
           pass: fangxu199502.
           # 重试次数
@@ -170,7 +170,7 @@ class SpringbootApplicationTests {
           # 邮件服务器的SMTP端口，可选，默认25
           port: 25
           # 发件人（必须正确，否则发送失败）
-          from: dzsw_gree@126.com
+          from: test@126.com
           # 密码（注意，某些邮箱需要为SMTP服务单独设置授权码）
           pass: UKPFAMAOAXKFCRAA
           # 重试次数
@@ -178,7 +178,7 @@ class SpringbootApplicationTests {
     ```
 
 2. 新增实体类如下
- 
+
     ```java
     @Component
     @ConfiguraionProperties(prefix="sender-email")
@@ -195,7 +195,7 @@ class SpringbootApplicationTests {
         }
     }
     ```
- 
+
 3. 在使用的地方注入自定义 mail 配置
 
     ```java
