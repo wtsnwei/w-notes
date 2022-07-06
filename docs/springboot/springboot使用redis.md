@@ -13,7 +13,7 @@
 ## 二、添加配置
 
 ```java
-package com.gree.storemonitor.config;
+package com.ava.storemonitor.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -67,7 +67,7 @@ public class RedisConfig {
 ## 三、编写工具类
 
 ```java
-package com.gree.storemonitor.utils;
+package com.ava.storemonitor.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -80,7 +80,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Author: 260205
  * @Create: 2018-12-20 17:10
  * @Description: redis工具类
  **/

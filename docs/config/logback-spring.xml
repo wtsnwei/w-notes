@@ -58,13 +58,13 @@
     <property name="PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{10}:%msg%n"/>
     <property name="DEV_LOG_LOCATION"
-              value="D:/log/market/"/>
+              value="D:/log/"/>
     <property name="TEST_LOG_LOCATION"
-              value="/opt/gree/market/log/"/>
+              value="/opt/ava/log/"/>
     <property name="PROD_LOG_LOCATION"
-              value="/opt/gree/market/log"/>
+              value="/opt/ava/log"/>
     <property name="MINI_LOG_LOCATION"
-              value="/opt/gree/market-mini/log"/>
+              value="/opt/ava/log"/>
 
     <!--开发环境-->
     <springProfile name="dev">

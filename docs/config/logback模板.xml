@@ -64,9 +64,9 @@
     <property name="DEV_LOG_LOCATION"
             value="D:/log/app/"/>
     <property name="TEST_LOG_LOCATION"
-            value="/opt/gree/log/"/>
+            value="/opt/ava/log/"/>
     <property name="PROD_LOG_LOCATION"
-            value="/opt/gree/log/"/>
+            value="/opt/ava/log/"/>
     <springProperty scope="context" name="logging.level"
                     source="custom_log.level"/>
 
@@ -124,6 +124,6 @@
         <logger name="org" level="warn"/>
         <logger name="javax" level="warn"/>
         <logger name="reactor" level="warn"/>
-        <logger name="com.gree" level="info"/>
+        <logger name="com.ava" level="info"/>
 
 </configuration>
