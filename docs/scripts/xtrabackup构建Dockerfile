@@ -1,0 +1,14 @@
+FROM debian
+
+USER root
+
+RUN curl -O https://repo.percona.com/apt/percona-release_latest.buster_all.deb \
+&& apt-get update \
+&& apt-get install -y --no-install-recommends lsb-release gnupg \
+&& dpkg -i percona-release_latest.buster_all.deb \
+&& apt-get update \
+&& apt-get install -y --no-install-recommends percona-xtrabackup-24 qpress \
+&& rm -f percona-release_latest.buster_all.deb \
+&& rm -rf /var/lib/apt/lists/*
+
+USER 1001
