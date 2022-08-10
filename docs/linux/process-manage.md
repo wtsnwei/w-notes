@@ -2,7 +2,6 @@
 
 进程是如何互相管理的呢？其实是透过给予该进程一个讯号（signal）去告知该进程你想要让她作什么。
 
-<br/>
 
 ## kill
 
@@ -29,7 +28,6 @@ kill -SIGHUP $(ps aux | grep 'rsyslogd' | grep -v 'grep'| awk '{print $2}')
 tail -5 /var/log/messages
 ```
 
-<br/>
 
 ## killall
 
@@ -66,7 +64,6 @@ Signal bash(13970) ? (y/N) n <==这个不杀！
 Signal bash(14836) ? (y/N) y <==这个杀掉！
 ```
 
-<br/>
 
 ## 小结
 

@@ -8,6 +8,15 @@ nav:
   - 'git':
     - '常用命令': 'git/git常用命令.md'
     - 'github超时': 'git/github超时.md'
+  - 'windows':
+    - '必备软件': 'windows/必备应用.md'
+    - 'win快捷键': 'windows/win快捷键.md'
+    - '禁用firefox更新': 'windows/禁用firefox更新.md'
+    - '禁用Firefox3地址栏的下拉菜单': 'windows/禁用Firefox3地址栏的下拉菜单.md'
+    - 'sublime之Package Control': 'windows/sublime之Package Control.md'
+    - 'pandoc使用技巧': 'windows/pandoc使用技巧.md'
+    - 'cmder': 'windows/cmder-issue.md'
+    - 'markdown中公式编辑教程': 'windows/markdown中公式编辑教程.md'
   - 'linux':
     - '分区方案': 'linux/partition-scheme.md'
     - '安装arch': 'linux/install-arch.md'
@@ -24,7 +33,7 @@ nav:
     - '进程管理': 'linux/process-manage.md'
     - '查看进程': 'linux/watch-process.md'
     - '配置ssh登录': 'linux/configure-ssh.md'
-    - '升级内核': 'linux/update-kernal.md'
+    - '升级内核': 'linux/update-kernel.md'
     - '使用make进行宏编译': 'linux/make-translation.md'
     - '设置yum源优先级': 'linux/change-yum-priority.md'
     - '系统资源观察': 'linux/watch-system-source.md'
@@ -138,9 +147,12 @@ nav:
     - '代码环境': 'latex/代码环境.md'
     - '定理环境': 'latex/定理环境.md'
 theme:
-  # name: 'material'
-  name: 'mkdocs'
-  locale: zh_CN
+  name: 'material'
+  # name: 'mkdocs'
+  palette:
+    primary: "grey"
+    accent: "deep orange"
+  # locale: zh_CN
 
 plugins:
   - search:
@@ -153,10 +165,16 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  # latex插件
+  - pymdownx.arithmatex:
+      generic: true
 
 # 代码块语法高亮
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
+  # latex js配置
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
 extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
-  - quote_block.css
+  # - quote_block.css

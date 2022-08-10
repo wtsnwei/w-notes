@@ -33,8 +33,7 @@ tar czvf ansible.tar.gz /localrepo   # 打包下载的rpm包
 
 6、上传到目标服务器
 
- <br/>
-
+ 
 ## 配置本地仓库
 
 1、添加本地 yum 源
@@ -62,8 +61,7 @@ yum repolist
 yum list|grep ansible    # 查看yum源是否已有ansible安装包
 ```
 
- <br/>
-
+ 
 ## 安装
 
 ```bash

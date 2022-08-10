@@ -1,7 +1,6 @@
 bash 只能管理自己的工作而不能管理其他 bash 的工作
 
- <br/>
-
+ 
 ## 将指令丢到背景中执行：<span style="color:#ea4355">&</span>
 
 范例一：将 /etc/ 备份成为 /tmp/etc.tar.gz
@@ -16,8 +15,7 @@ tar -zpcf /tmp/etc.tar.gz /etc &
 tar -zpcvf /tmp/etc.tar.gz /etc >/tmp/log.txt 2&>$1 &
 ```
 
- <br/>
-
+ 
 ## 将「当前」的工作丢到背景中「暂停」：<span style="color:#ea4355">[Ctrl]-z</span>
 
 范例1：当前正在使用vim，需要到bash环境下搜索文件
@@ -34,8 +32,7 @@ tar -zpcvf /tmp/etc.tar.gz /etc >/tmp/log.txt 2&>$1 &
 [2]+ Stopped find / -print
 ```
 
- <br/>
-
+ 
 ## 观察目前的背景工作状态：<span style="color:#ea4355">jobs</span>
 
 ```bash
@@ -55,8 +52,7 @@ tar -zpcvf /tmp/etc.tar.gz /etc >/tmp/log.txt 2&>$1 &
 [2]+ 14567 Stopped find / -print
 ```
 
- <br/>
-
+ 
 ## 将背景工作拿到前景来处理：<span style="color:#ea4355">fg</span>
 
 范例一：先以 jobs 观察工作，再将工作取出：
@@ -74,16 +70,14 @@ tar -zpcvf /tmp/etc.tar.gz /etc >/tmp/log.txt 2&>$1 &
 [2]- 14567 Stopped find / -print
 ```
 
- <br/>
-
+ 
 ## 让工作在背景下的状态变为「run」：<span style="color:#ea4355">bg</span>
 
 ```bash
 fg %number  # number为工作job号
 ```
 
- <br/>
-
+ 
 ## 管理背景中的工作：<span style="color:#ea4355">kill</span>
 
 **选项与参数**：
@@ -119,8 +113,7 @@ fg %number  # number为工作job号
 
 > 注意：kill 后面接的数字默认会是 PID ，如果想要管理 bash 的工作控制，就得要加上 %jobnumber 了， 这点也得特别留意才行喔
 
- <br/>
-
+ 
 ## 脱机管理：<span style="color:#ea4355">nohup</span>
 
 ```bash

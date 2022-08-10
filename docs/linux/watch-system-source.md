@@ -9,7 +9,6 @@ Mem:           1819        1018         222          29         578         619
 Swap:          1023           6        1017
 ```
 
-<br/>
 
 ## 二、uanme：查阅系统与核心相关信息
 
@@ -20,7 +19,6 @@ Swap:          1023           6        1017
 Linux study.centos.vbird 3.10.0-229.el7.x86_64 #1 SMP Fri Mar 6 11:36:42 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
-<br/>
 
 ## 三、uptime：观察系统启动时间与工作负载
 
@@ -31,7 +29,6 @@ Linux study.centos.vbird 3.10.0-229.el7.x86_64 #1 SMP Fri Mar 6 11:36:42 UTC 201
 02:35:27 up 7:48, 3 users, load average: 0.00, 0.01, 0.05
 ```
 
-<br/>
 
 ## 四、netstat：追踪网络或插槽文件
 
@@ -56,7 +53,6 @@ Active Internet connections (only servers)
 ……
 ```
 
-<br/>
 
 ## 五、分析核心产生的信息
 
@@ -75,7 +71,6 @@ Active Internet connections (only servers)
 ....(底下省略)....
 ```
 
-<br/>
 
 ## 六、检测系统资源变化
 

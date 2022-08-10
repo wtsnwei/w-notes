@@ -4,7 +4,6 @@
 [root@centos ~]# locale
 ```
 
-<br/>
 
 #### 2. 查看系统拥有的语言包
 
@@ -20,7 +19,6 @@
 > yum install kde-l10n-Chinese
 > ```
 
-<br/>
 
 #### 3. 设置为中文(临时修改,服务器重启之后会还原之前的设置)
 
@@ -31,7 +29,6 @@
 [root@centos ~]# LANG="en_US.UTF-8"
 ```
 
-<br/>
 
 #### 4. 设置为中文(永久有效)
 

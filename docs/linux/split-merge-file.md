@@ -1,7 +1,6 @@
 ## Linux下 split 分割文件 和 cat 合并文件
 
- <br/>
-
+ 
 ## split 命令
 
 split 命令可以将一个大文件分割成很多个小文件，有时需要将文件分割成更小的片段，比如为提高可读性，生成日志等。
@@ -59,8 +58,7 @@ date.file split_file000 split_file001 split_file002 split_file003 split_file004 
 split -l 10 data.file
 ```
 
- <br/>
-
+ 
 ## cat 合并文件
 
 有两种实现方式，一种是将两个文件合并输出一个新的文件，一种是将一个文件追加到另外一个文件后面。

@@ -8,7 +8,6 @@ stat 中的参数意义如下：
 * W 进入内存交换（从内核2.6开始无效）
 * X 死掉的进程
 
-<br/>
 
 # 观察进程状态
 
@@ -28,7 +27,6 @@ stat 中的参数意义如下：
     ps aux
     ```
 
-<br/>
 
 范例1：根据 **CPU使用**来降序排序
 
@@ -48,7 +46,6 @@ $ ps -aux --sort='-pmem' | less
 $ ps -aux --sort='-pcpu,-pmem' | head -n 10
 ```
 
-<br/>
 
 ## top
 
@@ -80,7 +77,6 @@ $ ps -aux --sort='-pcpu,-pmem' | head -n 10
 [root@study ~]# top -d 2 -p 14836
 ```
 
-<br/>
 
 ## pstree
 

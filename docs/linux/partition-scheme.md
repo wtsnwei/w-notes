@@ -1,12 +1,10 @@
 从零开始说起……
 
-<br/>
 
 ## CMOS
 
 记录主板上参数的芯片，例如：CPU 与内存的频率。这颗芯片需要借着额外的电源来发挥记录功能，所以主板上有一颗电池。
 
-<br/>
 
 ## BIOS
 
@@ -18,7 +16,6 @@ BIOS(Basic Input Output System)是一套程序，这套程序是写死到主板�
 >
 > 但是 BIOS 原本使用的是无法改写的 ROM ，因此根本无法修正 BIOS 程序代码！为此，现在的 BIOS 通常是写入类似闪存(flash) 或EEPROM 中。
 
-<br/>
 
 ## CMOS 与 BIOS
 
@@ -26,7 +23,6 @@ CMOS 是一颗芯片，主要功能是记录主板上面的重要参数，包括
 
 BIOS 是写入到主板上某一块 flash 或 EEPROM 的程序，它可以在开机的时候执行，以加载 CMOS 当中的参数， 并尝试呼叫储存装置中的开机程序，进一步进入操作系统当中。
 
-<br/>
 
 
 ## 开机流程
@@ -35,7 +31,6 @@ BIOS 是写入到主板上某一块 flash 或 EEPROM 的程序，它可以在开
 
 基本上，目前的主机系统在加载硬件驱动方面的程序，主要有早期的 BIOS 与新的 UEFI 两种机制，我们分别来谈谈！
 
-<br/>
 
 #### 一、BIOS 搭配 MBR/GPT 的开机流程
 
@@ -63,13 +58,11 @@ BIOS 是写入到主板上某一块 flash 或 EEPROM 的程序，它可以在开
 
 4. 核心文件：开始操作系统的功能...
 
-<br/>
 
 #### 二、UEFI BIOS 搭配 MBR 开机的流程
 
 不支持
 
-<br/>
 
 #### 三、UEFI BIOS 搭配 GPT 开机的流程
 
@@ -92,11 +85,9 @@ BIOS 并不能直接识别 GPT，它需要通过 GPT 提供兼容模式（LBA0 �
 
 另外，与 BIOS 模式相比，虽然 UEFI 可以直接取得 GPT 的分区表，不过<span style="color:#ea4355">最好依旧拥有 BIOS boot 的分区槽支持</span>。同时，为了与 windows 兼容，并且提供其他第三方厂商所使用的 UEFI 应用程序储存的空间，<span style="color:#ea4355">你必须要格式化一个 vfat 的文件系统， 大约提供 512MB 到1G 左右的容量</span>，以让其他 UEFI 执行较为方便。
 
-<br/>
 
 ## 总结—分区方案
 
-<br/>
 
 #### 一、BIOS + MBR
 
@@ -107,7 +98,6 @@ BIOS 并不能直接识别 GPT，它需要通过 GPT 提供兼容模式（LBA0 �
 | /home    | 10G      | xfs      | 主分区(p) |
 | swap     | 1G       | swap     | 主分区(p) |
 
-<br/>
 
 #### 二、BIOS + GPT
 
@@ -119,7 +109,6 @@ BIOS 并不能直接识别 GPT，它需要通过 GPT 提供兼容模式（LBA0 �
 | /home     | 10G      | xfs                  | 主分区/LVM方式(8300/8e00) |
 | swap      | 1G       | swap                 | 主分区/LVM方式(8300/8e00) |
 
-<br/>
 
 #### 三、UEFI + GPT
 

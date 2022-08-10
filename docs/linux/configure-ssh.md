@@ -29,7 +29,6 @@
     $ systemctl restart sshd
     ```
 
-<br/>
 
 ## 配置用户远程密钥登录
 
@@ -47,8 +46,7 @@
     $ ssh -i C:\Users\whs\.ssh\google_cloud wtsn@35.203.57.155
     ```
 
-   <br/>
-
+   
 ## 修改ras信息
 
 ```bash
