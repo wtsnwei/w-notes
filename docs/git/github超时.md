@@ -61,7 +61,7 @@ Hi xiangshuo1992! You've successfully authenticated, but GitHub does not provide
 
 不知道为什么今天我的github突然就连不上了，如下：
 
-```bash
+```
 [root@archlinux ~]# ping github.com
 PING github.com (20.205.243.166) 56(84) bytes of data.
 连接超时。
@@ -100,19 +100,19 @@ PING github.com (20.205.243.166) 56(84) bytes of data.
 然后打开 Git Bash 然后输入这个命令 
 
 ```bash
-$ git config --global http.proxy 
+git config --global http.proxy 
 ```
 
 **如果没有输出，则未设置 Git Bash 中的代理**。使用如下命令设置使用代理，第一段中显示的代理和端口 
 
 ```bash
-$ git config --global http.proxy proxyaddress:port
+git config --global http.proxy proxyaddress:port
 ```
 
 然后再次输入此命令 
 
 ```bash
-$ git config --global http.proxy 
+git config --global http.proxy 
 ```
 
 到这，你已经设置好代理了。 
@@ -120,5 +120,5 @@ $ git config --global http.proxy
 要在 Git Bash 上重置代理，只需输入此命令 
 
 ```bash
- $ git config --global --unset http.proxy 
+git config --global --unset http.proxy 
 ```
