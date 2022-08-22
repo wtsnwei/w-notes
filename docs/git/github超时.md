@@ -1,4 +1,4 @@
-# github push过程中的timeout问题
+## github push过程中的timeout问题
 
 ### 一、改用 ssh key
 
@@ -106,7 +106,7 @@ git config --global http.proxy
 **如果没有输出，则未设置 Git Bash 中的代理**。使用如下命令设置使用代理，第一段中显示的代理和端口 
 
 ```bash
-git config --global http.proxy proxyaddress:port
+git config --global http.proxy socks5://127.0.0.1:10808
 ```
 
 然后再次输入此命令 
@@ -122,3 +122,12 @@ git config --global http.proxy
 ```bash
 git config --global --unset http.proxy 
 ```
+
+
+
+### 四、改用 https 协议上传
+
+```bash
+git remote set-url origin https://github.com/wtsnwei/w-notes.git
+```
+
