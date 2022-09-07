@@ -4,6 +4,7 @@ nav:
   - Home: index.md
   - 'idea':
     - '快捷键': 'idea/快捷键.md'
+    - '编辑': 'idea/编辑.md'
     - '跳转切换': 'idea/跳转切换.md'
   - 'git':
     - '添加ssh key': 'git/add-ssh-key.md'
