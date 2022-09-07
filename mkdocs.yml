@@ -59,6 +59,7 @@ nav:
     - '启动各种容器':
       - '启动redis': 'docker/启动各种容器/启动redis.md'
       - '启动mysql': 'docker/启动各种容器/启动mysql.md'
+      - '启动kafka': 'docker/启动各种容器/启动kafka.md'
       - '启动sonarqube': 'docker/启动各种容器/启动sonarqube.md'
   - 'springboot':
     - 'mybatis-plus自动生成代码': 'springboot/mybatis-plus自动生成代码.md'

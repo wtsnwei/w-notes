@@ -1,158 +1,119 @@
-# CentOS Docker 安装
+## 离线安装 Docker 和 compose
 
-Docker 支持以下的 64 位 CentOS 版本：
+### 一、下载离线安装包
 
-- CentOS 7
-- CentOS 8
-- 更高版本...
+去官网下载 docker 安装二进制包，选择适合自己的版本。这里下载的是 `docker-19.03.9.tgz`，在centos7中安装。
 
-------
+下载地址：[https://download.docker.com/linux/static/stable/x86_64/](https://download.docker.com/linux/static/stable/x86_64/)
 
-## 使用官方安装脚本自动安装
 
-安装命令如下：
 
-```
-curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-```
+### 二、将 docker 离线包解压并移动到 `/usr/bin` 下
 
-也可以使用国内 daocloud 一键安装命令：
-
-```
-curl -sSL https://get.daocloud.io/docker | sh
-```
-
-------
-
-## 手动安装
-
-### 卸载旧版本
-
-较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。
+复制 docker-19.03.9.tgz 到服务器上，解压：
 
 ```bash
-$ sudo yum remove docker \
-         docker-client \
-         docker-client-latest \
-         docker-common \
-         docker-latest \
-         docker-latest-logrotate \
-         docker-logrotate \
-         docker-engine
+tar xzvf docker-19.03.9.tgz
+cp docker/* /usr/bin/
 ```
 
-### 安装 Docker Engine-Community
 
-### 使用 Docker 仓库进行安装
 
-在新主机上首次安装 Docker Engine-Community 之前，需要设置 Docker 仓库。之后，您可以从仓库安装和更新 Docker。
-
-**设置仓库**
-
-安装所需的软件包。yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。
+### 三、添加docker配置文件
 
 ```bash
-$ sudo yum install -y yum-utils \
- device-mapper-persistent-data \
- lvm2
-```
-
-使用以下命令来设置稳定的仓库。
-
-## 使用官方源地址（比较慢）
-
-```bash
-$ sudo yum-config-manager \
-  --add-repo \
-  https://download.docker.com/linux/centos/docker-ce.repo
-```
-
-可以选择国内的一些源地址：
-
-**阿里云**
-
-```bash
-$ sudo yum-config-manager \
-  --add-repo \
-  http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-```
-
-**清华大学源**
-
-```bash
-$ sudo yum-config-manager \
-  --add-repo \
-  https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo
-```
-
-### 安装 Docker Engine-Community
-
-安装最新版本的 Docker Engine-Community 和 containerd，或者转到下一步安装特定版本：
-
-```bash
-$ sudo yum install docker-ce docker-ce-cli containerd.io
-```
-
-如果提示您接受 GPG 密钥，请选是。
-
-> **有多个 Docker 仓库吗？**
-> 
-> 如果启用了多个 Docker 仓库，则在未在 yum install 或 yum update 命令中指定版本的情况下，进行的安装或更新将始终安装最高版本，这可能不适合您的稳定性需求。
-
-Docker 安装完默认未启动。并且已经创建好 docker 用户组，但该用户组下没有用户。
-
-**要安装特定版本的 Docker Engine-Community，请在存储库中列出可用版本，然后选择并安装：**
-
-1、列出并排序您存储库中可用的版本。此示例按版本号（从高到低）对结果进行排序。
-
-```bash
-$ yum list docker-ce --showduplicates | sort -r
-
-docker-ce.x86_64  3:18.09.1-3.el7           docker-ce-stable
-docker-ce.x86_64  3:18.09.0-3.el7           docker-ce-stable
-docker-ce.x86_64  18.06.1.ce-3.el7           docker-ce-stable
-docker-ce.x86_64  18.06.0.ce-3.el7           docker-ce-stable
-```
-
-2、通过其完整的软件包名称安装特定版本，该软件包名称是软件包名称（docker-ce）加上版本字符串（第二列），从第一个冒号（:）一直到第一个连字符，并用连字符（-）分隔。例如：docker-ce-18.09.1。
-
-```bash
-$ sudo yum install docker-ce-<VERSION_STRING> docker-ce-cli-<VERSION_STRING> containerd.io
-```
-
-启动 Docker。
-
-```bash
-$ sudo systemctl start docker
-```
-
-验证是否正确安装了 Docker Engine-Community 。
-
-```bash
-$ docker -v
-```
-
-3、配置 docker 镜像源
-
-将 docker 镜像源修改为国内的：
-
-```bash
-sudo bash -c "cat > /etc/docker/daemon.json" <<EOF
-{
-  "registry-mirrors": ["https://9cpn8tt6.mirror.aliyuncs.com"]
-}
+cat > /etc/systemd/system/docker.service <<EOF
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target firewalld.service
+Wants=network-online.target
+[Service]
+Type=notify
+# the default is not to use systemd for cgroups because the delegate issues still
+# exists and systemd currently does not support the cgroup feature set required
+# for containers run by docker
+ExecStart=/usr/bin/dockerd
+ExecReload=/bin/kill -s HUP $MAINPID
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+# Uncomment TasksMax if your systemd version supports it.
+# Only systemd 226 and above support this version.
+#TasksMax=infinity
+TimeoutStartSec=0
+# set delegate yes so that systemd does not reset the cgroups of docker containers
+Delegate=yes
+# kill only the docker process, not all processes in the cgroup
+KillMode=process
+# restart the docker process if it exits prematurely
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
+[Install]
+WantedBy=multi-user.target
 EOF
 ```
 
-服务重启：
+### 四、启动docker
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl restart docker
+chmod +x /etc/systemd/system/docker.service	 # 增加权限
+systemctl daemon-reload                      # 重新加载配置文件
+systemctl start docker
+systemctl enable docker.service
+docker ps                                    # 验证docker是否正常启动
 ```
 
-4、开机启动
+### 五、设置 http 代理
+
+修改配置：`/etc/systemd/system/docker.service`，在 `[service]` 下面加入代理的配置，比如：
 
 ```bash
-sudo systemctl enable docker
+Environment=HTTP_PROXY=http://127.0.0.1:10809
+Environment=HTTPS_PROXY=http://127.0.0.1:10809
+Environment=NO_PROXY=localhost,127.0.0.1
+```
+
+重启
+
+```bash
+systemctl daemon-reload
+systemctl restart docker
+```
+
+
+
+## 离线安装 docker compose
+
+### 一、下载安装包
+
+运行以下命令以下载 Docker Compose 的当前稳定版本：
+
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+要安装其他版本的 Compose，请替换 `v2.2.2`。
+
+### 二、添加执行权限
+
+将可执行权限应用于二进制文件：
+
+```bash
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+创建软链：
+
+```bash
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+
+测试是否安装成功：
+
+```bash
+docker-compose --version
 ```
