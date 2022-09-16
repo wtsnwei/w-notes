@@ -45,3 +45,18 @@ docker-compose up -d
 
 > 参考：[https://hub.docker.com/r/bitnami/redis](https://hub.docker.com/r/bitnami/redis)
 
+
+
+## 使用 *redisInsight* 
+
+```yaml
+version: '2'
+services:
+  redis-insight:
+    image: redislabs/redisinsight:1.13.0
+    container_name: redis-insight
+    ports:
+      - "8001:8001"
+    restart: always
+```
+
