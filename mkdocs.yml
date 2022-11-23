@@ -10,6 +10,7 @@ nav:
     - '添加ssh key': 'git/add-ssh-key.md'
     - '常用命令': 'git/git常用命令.md'
     - 'github超时': 'git/github超时.md'
+    - '自用git常用命令': 'git/my-git-commands.md'
   - 'windows':
     - '必备软件': 'windows/必备应用.md'
     - 'win快捷键': 'windows/win快捷键.md'
@@ -61,6 +62,7 @@ nav:
       - '启动redis': 'docker/启动各种容器/启动redis.md'
       - '启动mysql': 'docker/启动各种容器/启动mysql.md'
       - '启动kafka': 'docker/启动各种容器/启动kafka.md'
+      - '启动rabbitmq': 'docker/启动各种容器/启动rabbitmq.md'
       - '启动sonarqube': 'docker/启动各种容器/启动sonarqube.md'
   - 'springboot':
     - 'mybatis-plus自动生成代码': 'springboot/mybatis-plus自动生成代码.md'
@@ -72,7 +74,7 @@ nav:
     - '入参校验': 'springboot/入参有效性校验.md'
     - '枚举类': 'springboot/枚举类.md'
     - 'aop':
-      - '现在访问频率': 'springboot/springboot使用AOP限制访问频率.md'
+      - '限制访问频率': 'springboot/springboot使用AOP限制访问频率.md'
     - '使用jms发送邮件': 'springboot/springboot使用jms发送邮件.md'
     - '使用redis': 'springboot/springboot使用redis.md'
     - '函数式编程':

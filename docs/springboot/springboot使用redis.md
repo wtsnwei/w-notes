@@ -13,7 +13,7 @@
 ## 二、添加配置
 
 ```java
-package com.ava.storemonitor.config;
+package com.ava.mailtest.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -67,7 +67,7 @@ public class RedisConfig {
 ## 三、编写工具类
 
 ```java
-package com.ava.storemonitor.utils;
+package com.ava.mailtest.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

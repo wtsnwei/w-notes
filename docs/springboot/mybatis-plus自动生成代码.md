@@ -55,7 +55,7 @@ public class GeneratorDisplay {
 
         // 3、包配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName("publicOpinionMonitor");
+        pc.setModuleName("mybatisPlusTest");
         pc.setParent("com.example.demo");
         mpg.setPackageInfo(pc);
 
