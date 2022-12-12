@@ -151,8 +151,10 @@ nav:
     - 'TeX小结': 'latex/TeX小结.md'
     - '代码环境': 'latex/代码环境.md'
     - '定理环境': 'latex/定理环境.md'
-  - '其他':
-    - 'mysql定时备份': 'other/mysql备份.md'
+  - 'mysql':
+    - 'mysql定时备份': 'mysql/mysql备份.md'
+    - '主从同步': 'mysql/主从同步.md'
+    - '排查死锁': 'mysql/排查死锁.md'
 theme:
   name: 'material'
   # name: 'mkdocs'
