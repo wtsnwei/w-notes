@@ -52,6 +52,7 @@ nav:
     - 'ansible入门': 'linux/ansible.md'
     - 'nginx': 'linux/nginx.md'
     - '安装docker': 'linux/install-docker.md'
+    - '使用v2ray': 'linux/v2ray.md'
   - 'docker':
     - '安装docker': 'docker/安装docker.md'
     - 'docker常用指令': 'docker/docker常用指令.md'
