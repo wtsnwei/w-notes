@@ -152,6 +152,8 @@ nav:
     - 'TeX小结': 'latex/TeX小结.md'
     - '代码环境': 'latex/代码环境.md'
     - '定理环境': 'latex/定理环境.md'
+    - 'markdown 转换为 word': 'latex\md2word.md'
+    - 'markdown 转换为 pdf': 'latex\md2pdf.md'
   - 'mysql':
     - 'mysql定时备份': 'mysql/mysql备份.md'
     - '主从同步': 'mysql/主从同步.md'
